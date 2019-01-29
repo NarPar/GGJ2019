@@ -17,12 +17,18 @@ public class Guardian : MonoBehaviour
 
     protected Vector2 direction = Vector2.left;
 
+    private Transform throwPoint;
+
+    public GuardianPlacementController placer;
+
     // Use this for initialization
     void Awake()
     {
         animator = GetComponent<Animator>();
 
         alphaTime = 0.0f;
+
+        throwPoint = transform.Find("ThrowPoint");
     }
 
     public void SetDirection(Vector2 dir)
@@ -37,11 +43,13 @@ public class Guardian : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
 
         Activated = true;
-        timer = shootTime;
+        timer = 0.0f; // shoot immediately
         
         Color tmp = GetComponent<SpriteRenderer>().color;
         tmp.a = 1f;
         GetComponent<SpriteRenderer>().color = tmp;
+
+        placer = null;
     }
 
         // Update is called once per frame
@@ -65,7 +73,7 @@ public class Guardian : MonoBehaviour
 
     protected void ShootProjectile()
     {
-        var projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity).GetComponent<Projectile>();
+        var projectile = Instantiate(projectilePrefab, throwPoint.position, Quaternion.identity).GetComponent<Projectile>();
         projectile.SetDirection(direction);
         projectile.Guardian = this;
 
@@ -86,5 +94,21 @@ public class Guardian : MonoBehaviour
         Color tmp = GetComponent<SpriteRenderer>().color;
         tmp.a = 0.3f + 0.3f * (1 + (0.5f * Mathf.Sin(alphaTime)));
         GetComponent<SpriteRenderer>().color = tmp;
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (placer != null)
+        {
+            placer.HandleEnterRegion(collision);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (placer != null)
+        {
+            placer.HandleExitRegion(collision);
+        }
     }
 }

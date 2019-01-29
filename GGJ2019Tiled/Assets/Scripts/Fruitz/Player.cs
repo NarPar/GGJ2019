@@ -24,9 +24,10 @@ public class Player : MonoBehaviour
     private GuardianPlacementController turretPlacer;
 
     // Start is called before the first frame update
-    void Start()
+    public void Init(GameManager gm, int id)
     {
-
+        GameManager = gm;
+        inputID = id;
     }
 
     // Update is called once per frame
@@ -51,6 +52,8 @@ public class Player : MonoBehaviour
         // wait for player join
         if (Input.GetButton("Jump" + inputID))
         {
+            Debug.Log("Player " + inputID + " Joining!");
+
             NewIdentity();
             state = PlayerState.Invading; // move to next state
         }
@@ -92,9 +95,11 @@ public class Player : MonoBehaviour
         guardian = GameManager.SpawnGuardian(invader.Identity);
         nameText.Set(guardian.transform, invader.Identity);
 
+        
+
         Destroy(invader.gameObject);
 
-        turretPlacer = new GuardianPlacementController();
+        turretPlacer = GameManager.SpawnGuardianPlacementController();
 
         turretPlacer.StartPlacement(guardian, this);
 
@@ -119,6 +124,8 @@ public class Player : MonoBehaviour
     public void DonePlacement()
     {
         state = PlayerState.Waiting;
+
+        Destroy(turretPlacer);
 
         GameManager.UpdateScoreBoard();
     }

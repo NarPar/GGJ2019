@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  explosionPrefab: {fileID: 774292929080049342, guid: 9db717755a288bf46a4353c205628b4f,
+  explosionPrefab: {fileID: 4301198784934675994, guid: 514853fc931fcfb4f9ed4828221217f8,
     type: 3}
 --- !u!60 &2932711735601812377
 PolygonCollider2D:
@@ -153,7 +153,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!82 &1000838356369229731
 AudioSource:
   m_ObjectHideFlags: 0

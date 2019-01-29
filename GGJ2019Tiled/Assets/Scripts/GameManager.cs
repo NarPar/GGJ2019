@@ -21,6 +21,7 @@ namespace Assets.Scripts
         public GameObject LimeGuardianPrefab;
         public GameObject LimeInvaderPrefab;
         public GameObject ScoreObjectPrefab;
+        public GameObject GuardianPlacementControllerPrefab;
 
         public GameObject NamePrefab;
         public ScoreBox ScoreboardDisplay;
@@ -46,10 +47,15 @@ namespace Assets.Scripts
 
             var player1 = gameObject.AddComponent<Player>();
             player1.GameManager = this;
+            player1.Init(this, 1);
+
+            var player2 = gameObject.AddComponent<Player>();
+            player2.Init(this, 2);
 
             Players = new List<Player>
             {
                 player1,
+                player2,
             };
         }
 
@@ -70,9 +76,14 @@ namespace Assets.Scripts
             return Instantiate(NamePrefab, Vector3.zero, Quaternion.identity).GetComponent<PlayerNameText>();
         }
 
+        public GuardianPlacementController SpawnGuardianPlacementController()
+        {
+            return Instantiate(GuardianPlacementControllerPrefab, Vector3.zero, Quaternion.identity).GetComponent<GuardianPlacementController>();
+        }
+
         public Invader SpawnInvader()
         {
-            var spawnPoint = SpawnRegionTransforms[UnityEngine.Random.Range(0, SpawnRegionTransforms.Length - 1)];
+            var spawnPoint = SpawnRegionTransforms[UnityEngine.Random.Range(0, SpawnRegionTransforms.Length)]; // Random.Range() max is exclusive, FYI
 
             var identity = Identity.GenerateNewIdentity();
             Identities.Add(identity);

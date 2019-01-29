@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GuardianPlacementController
+public class GuardianPlacementController : MonoBehaviour
 {
     enum PlacementState { None, Positioning, Rotating };
 
     public float placeSpeed = 7.0f;
     public float rotateSpeed = 7.0f;
+
+    public AudioClip PlacementSFX;
+    public AudioClip InvalidSFX;
 
     private PlacementState state = PlacementState.None;
 
@@ -17,10 +20,14 @@ public class GuardianPlacementController
 
     Vector2 currentDir = Vector2.left;
 
+    private bool placementValid = true;
+
+    private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void StartPlacement(Guardian g, Player p)
@@ -30,6 +37,8 @@ public class GuardianPlacementController
         player = p;
         guardian = g;
         gBod = guardian.GetComponent<Rigidbody2D>();
+
+        g.placer = this;
 
         state = PlacementState.Positioning;
     }
@@ -65,9 +74,6 @@ public class GuardianPlacementController
 
             currentDir = input;
         }
-
-        // TODO: Don't collide with projectiles
-
     }
 
     void UpdateRotating(Vector2 input, float deltaTime)
@@ -91,22 +97,53 @@ public class GuardianPlacementController
         currentDir = guardian.transform.up;
     }
 
+    public void HandleEnterRegion(Collider2D col)
+    {
+        if (col.tag == "InvalidPlacementRegion")
+        {
+            placementValid = false;
+            guardian.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+    }
+
+    public void HandleExitRegion(Collider2D col)
+    {
+        if (col.tag == "InvalidPlacementRegion")
+        {
+            placementValid = true;
+            guardian.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+    }
+
     public void HandleAccept()
     {
-        switch (state)
+        if (placementValid)
         {
-            case (PlacementState.Positioning):
-                guardian.GetComponent<Collider2D>().enabled = false;
-                gBod.velocity = Vector2.zero;
+            audioSource.clip = PlacementSFX;
+            audioSource.volume = 1f;
+            audioSource.Play();
 
-                state = PlacementState.Rotating;
-                break;
-            case (PlacementState.Rotating):
-                guardian.SetDirection(currentDir.normalized);
+            switch (state)
+            {
+                case (PlacementState.Positioning):
+                    guardian.GetComponent<Collider2D>().enabled = false;
+                    gBod.velocity = Vector2.zero;
 
-                state = PlacementState.None;
-                player.DonePlacement();
-                break;
+                    state = PlacementState.Rotating;
+                    break;
+                case (PlacementState.Rotating):
+                    guardian.SetDirection(currentDir.normalized);
+
+                    state = PlacementState.None;
+                    player.DonePlacement();
+                    break;
+            }
+        }
+        else
+        {
+            audioSource.clip = InvalidSFX;
+            audioSource.volume = 0.5f;
+            audioSource.Play();
         }
     }
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7564412149071046757}
   - component: {fileID: 8776762729678268325}
   - component: {fileID: 2966651427963595352}
+  - component: {fileID: 1639110082422727075}
   m_Layer: 0
   m_Name: LimeSquashed
   m_TagString: Untagged
@@ -176,3 +177,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1639110082422727075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6698446695289573216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a01e0413ba728ef49bcf181155cdd3ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
