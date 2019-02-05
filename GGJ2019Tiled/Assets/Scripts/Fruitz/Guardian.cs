@@ -53,16 +53,19 @@ public class Guardian : MonoBehaviour
     }
 
         // Update is called once per frame
-        void Update()
+    void Update()
     {
         if (Activated)
         {
-            timer -= Time.deltaTime;
-            if (timer <= 0.0f)
+            if (!shootingPaused)
             {
-                ShootProjectile();
+                timer -= Time.deltaTime;
+                if (timer <= 0.0f)
+                {
+                    ShootProjectile();
 
-                timer = shootTime;
+                    timer = shootTime;
+                }
             }
         }
         else
@@ -74,8 +77,8 @@ public class Guardian : MonoBehaviour
     protected void ShootProjectile()
     {
         var projectile = Instantiate(projectilePrefab, throwPoint.position, Quaternion.identity).GetComponent<Projectile>();
+        projectile.Init(this);
         projectile.SetDirection(direction);
-        projectile.Guardian = this;
 
         animator.SetTrigger("shoot");
 
@@ -110,5 +113,16 @@ public class Guardian : MonoBehaviour
         {
             placer.HandleExitRegion(collision);
         }
+    }
+
+    bool shootingPaused = false;
+    public void PauseShooting()
+    {
+        shootingPaused = true;
+    }
+
+    public void ResumeShooting()
+    {
+        shootingPaused = false;
     }
 }

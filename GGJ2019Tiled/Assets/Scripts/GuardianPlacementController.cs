@@ -126,7 +126,7 @@ public class GuardianPlacementController : MonoBehaviour
             switch (state)
             {
                 case (PlacementState.Positioning):
-                    guardian.GetComponent<Collider2D>().enabled = false;
+                    guardian.GetComponent<Collider2D>().isTrigger = true;
                     gBod.velocity = Vector2.zero;
 
                     state = PlacementState.Rotating;
