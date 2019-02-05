@@ -22,7 +22,7 @@ namespace Assets.Scripts.Fruitz
         public static Identity GenerateNewIdentity()
         {
             var number = MaxNumber++;
-            var type = FruitType.Banana;//SelectRandomType();
+            var type = SelectRandomType();
             var name = GenerateRandomName(type);
             return new Identity() { Number = number, Type = type, Name = name, Score = 0 };
         }
