@@ -9,6 +9,7 @@ TagManager:
   - Goal
   - Score
   - InvalidPlacementRegion
+  - Wall
   layers:
   - Default
   - TransparentFX

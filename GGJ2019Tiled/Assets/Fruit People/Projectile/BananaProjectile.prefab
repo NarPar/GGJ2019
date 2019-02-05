@@ -180,10 +180,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97155ad3235eca742838f3455daea626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 2
   explosionPrefab: {fileID: 7471716125188123900, guid: 663d7acf551841243b4ecc66c920fd53,
     type: 3}
-  returnSpeed: 10
+  FlyTime: 2
+  Range: 6
 --- !u!1 &4550878457492420476
 GameObject:
   m_ObjectHideFlags: 0

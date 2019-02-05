@@ -23,20 +23,13 @@ public class BouncyProjectile : Projectile
     // called when the cube hits the floor
     protected override void HandleCollision(Collision2D col)
     {
-        //Debug.Log("FruitProjectile -> OnCollisionEnter2D ; " + col.gameObject.name + ", Tag " + col.gameObject.tag + ", Layer " + col.gameObject.layer);
-        
-        if (col.gameObject.tag == "Player") // Invader
-        {
-            Guardian.Identity.Score += 1;
-        }
-
-        if (bounces > 0)
+        if (col.gameObject.tag == "Wall" && bounces > 0)
         {
             Bounce(col);
         }
         else
         {
-            OnHit();
+            base.HandleCollision(col);
         }
     }
 

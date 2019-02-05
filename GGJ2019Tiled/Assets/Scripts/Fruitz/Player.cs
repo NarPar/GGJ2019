@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -22,12 +23,14 @@ public class Player : MonoBehaviour
     private Invader invader;
     private Guardian guardian;
     private GuardianPlacementController turretPlacer;
+    private Text statusText;
 
     // Start is called before the first frame update
-    public void Init(GameManager gm, int id)
+    public void Init(GameManager gm, int id, Text sText)
     {
         GameManager = gm;
         inputID = id;
+        statusText = sText;
     }
 
     // Update is called once per frame
@@ -56,6 +59,9 @@ public class Player : MonoBehaviour
 
             NewIdentity();
             state = PlayerState.Invading; // move to next state
+
+            statusText.text = "[Invading]";
+            statusText.color = Color.red;
         }
     }
 
@@ -81,6 +87,8 @@ public class Player : MonoBehaviour
     public void HandleInvaderKilled()
     {
         state = PlayerState.Waiting;
+        statusText.text = "[Available]";
+        statusText.color = Color.green;
 
         GameManager.RemoveIdentity(invader.Identity);
 
@@ -104,6 +112,9 @@ public class Player : MonoBehaviour
         turretPlacer.StartPlacement(guardian, this);
 
         state = PlayerState.Placing;
+
+        statusText.text = "[Placing]";
+        statusText.color = Color.blue;
     }
 
     void UpdatePlacing()
@@ -124,6 +135,8 @@ public class Player : MonoBehaviour
     public void DonePlacement()
     {
         state = PlayerState.Waiting;
+        statusText.text = "[Available]";
+        statusText.color = Color.green;
 
         Destroy(turretPlacer);
 

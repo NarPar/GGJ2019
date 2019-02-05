@@ -29,6 +29,8 @@ public class Guardian : MonoBehaviour
         alphaTime = 0.0f;
 
         throwPoint = transform.Find("ThrowPoint");
+
+        direction = transform.up; // just as a default
     }
 
     public void SetDirection(Vector2 dir)
@@ -124,5 +126,10 @@ public class Guardian : MonoBehaviour
     public void ResumeShooting()
     {
         shootingPaused = false;
+    }
+
+    public void PlayAnimation()
+    {
+        animator.SetTrigger("shoot");
     }
 }

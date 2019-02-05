@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Assets.Scripts.Fruitz;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts
@@ -26,6 +27,8 @@ namespace Assets.Scripts
         public GameObject NamePrefab;
         public ScoreBox ScoreboardDisplay;
 
+        public Text[] PlayerStatusTexts;
+
         public List<Identity> Identities { get; private set; }
         public List<Player> Players { get; private set; }
 
@@ -47,10 +50,10 @@ namespace Assets.Scripts
 
             var player1 = gameObject.AddComponent<Player>();
             player1.GameManager = this;
-            player1.Init(this, 1);
+            player1.Init(this, 1, PlayerStatusTexts[0]);
 
             var player2 = gameObject.AddComponent<Player>();
-            player2.Init(this, 2);
+            player2.Init(this, 2, PlayerStatusTexts[1]);
 
             Players = new List<Player>
             {

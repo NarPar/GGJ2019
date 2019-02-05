@@ -21,9 +21,10 @@ public class Projectile : MonoBehaviour
     public virtual void Init(Guardian g)
     {
         Guardian = g;
+        direction = Guardian.transform.up;
     }
 
-    public void SetDirection(Vector2 dir)
+    public virtual void SetDirection(Vector2 dir)
     {
         direction = dir;
     }
